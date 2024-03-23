@@ -10,13 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_03_23_195032) do
+ActiveRecord::Schema[7.1].define(version: 2024_03_23_212437) do
   create_table "products", force: :cascade do |t|
     t.string "internal_name", null: false
     t.string "external_name", null: false
     t.string "description", null: false
     t.string "manufacturer", null: false
     t.boolean "active", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "skus", force: :cascade do |t|
+    t.string "code", limit: 13, null: false
+    t.string "name", null: false
+    t.integer "stock_qty", default: 0, null: false
+    t.integer "table_price_in_cents", default: 0, null: false
+    t.integer "listing_price_in_cents", default: 0, null: false
+    t.integer "product_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

@@ -1,4 +1,6 @@
 class Product < ApplicationRecord
+  has_many :skus
+
   before_save :save_name_slug
 
   private
