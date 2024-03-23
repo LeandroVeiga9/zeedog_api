@@ -1,5 +1,5 @@
 class Product < ApplicationRecord
-  has_many :skus
+  has_many :skus, dependent: :destroy
 
   before_save :save_name_slug
 

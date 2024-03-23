@@ -17,10 +17,10 @@ class ProductsController < ApplicationController
   def create
     @product = Product.new(product_params)
 
-    if @product.save
+    begin @product.save
       render :show, status: :created, location: @product
-    else
-      render json: @product.errors, status: :unprocessable_entity
+    rescue => errors
+      render json: errors, status: :unprocessable_entity
     end
   end
 

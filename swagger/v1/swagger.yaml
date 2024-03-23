@@ -1,0 +1,161 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/products":
+    post:
+      summary: Creates a product
+      tags:
+      - Products
+      parameters: []
+      responses:
+        '201':
+          description: product created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  external_name:
+                    type: string
+                  description:
+                    type: string
+                  manufacturer:
+                    type: string
+                  active:
+                    type: boolean
+                  created_at:
+                    type: string
+                    format: datetime
+                  updated_at:
+                    type: string
+                    format: datetime
+                  skus:
+                    type: array
+                    items:
+                      type: object
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                external_name:
+                  type: string
+                description:
+                  type: string
+                manufacturer:
+                  type: string
+                active:
+                  type: boolean
+              required:
+              - external_name
+              - description
+              - manufacturer
+              - active
+    get:
+      summary: Retrieves all products paginated
+      tags:
+      - Products
+      responses:
+        '200':
+          description: products found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  products:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        external_name:
+                          type: string
+                        description:
+                          type: string
+                        manufacturer:
+                          type: string
+                        active:
+                          type: boolean
+                        created_at:
+                          type: string
+                          format: datetime
+                        updated_at:
+                          type: string
+                          format: datetime
+                        skus:
+                          type: array
+                          items:
+                            type: object
+                  pagination:
+                    type: object
+                    properties:
+                      total_pages:
+                        type: integer
+                        nullable: true
+                      current_page:
+                        type: integer
+                        nullable: true
+                      next_page:
+                        type: integer
+                        nullable: true
+                      prev_page:
+                        type: integer
+                        nullable: true
+  "/products/{id}":
+    get:
+      summary: Retrieves one product
+      tags:
+      - Products
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Retrieves a product
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  external_name:
+                    type: string
+                  description:
+                    type: string
+                  manufacturer:
+                    type: string
+                  active:
+                    type: boolean
+                  created_at:
+                    type: string
+                    format: datetime
+                  updated_at:
+                    type: string
+                    format: datetime
+                  skus:
+                    type: array
+                    items:
+                      type: object
+        '404':
+          description: product not found
+servers:
+- url: https://{defaultHost}
+  variables:
+    defaultHost:
+      default: www.example.com
