@@ -4,7 +4,12 @@ class SkusController < ApplicationController
   # GET /skus
   # GET /skus.json
   def index
-    @skus = Sku.all
+    if params[:product_id]
+      @skus = Sku.where(product_id: params[:product_id]).page(params[:page].presence || 1).per(params[:per_page].presence || 10)
+    else
+      @skus = Sku.page(params[:page].presence || 1).per(params[:per_page].presence || 10)
+    end
+    return @skus
   end
 
   # GET /skus/1
