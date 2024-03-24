@@ -10,12 +10,13 @@ describe 'products' do
       parameter name: :product, in: :body, schema: {
         type: :object,
         properties: {
-          external_name: { type: :string },
-          description: { type: :string },
-          manufacturer: { type: :string },
-          active: { type: :boolean }
-        },
-        required: [ 'external_name', 'description', 'manufacturer', 'active' ]
+          product: { type: :object, properties: {
+            external_name: { type: :string },
+            description: { type: :string },
+            manufacturer: { type: :string },
+            active: { type: :boolean }
+          }, required: [ 'external_name', 'description', 'manufacturer', 'active' ] }
+        }
       }
 
       response '201', 'product created' do
@@ -125,12 +126,13 @@ describe 'products' do
       parameter name: :product, in: :body, schema: {
         type: :object,
         properties: {
-          external_name: { type: :string },
-          description: { type: :string },
-          manufacturer: { type: :string },
-          active: { type: :boolean }
-        },
-        required: [ 'external_name', 'description', 'manufacturer', 'active' ]
+          product: { type: :object, properties: {
+            external_name: { type: :string },
+            description: { type: :string },
+            manufacturer: { type: :string },
+            active: { type: :boolean }
+          }, required: [ 'external_name', 'description', 'manufacturer', 'active' ] }
+        }
       }
 
       response '200', 'Updates a product' do

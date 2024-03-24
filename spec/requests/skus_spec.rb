@@ -10,14 +10,15 @@ describe 'skus' do
       parameter name: :sku, in: :body, schema: {
         type: :object,
         properties: {
-          code: { type: :string },
-          name: { type: :string },
-          stock_qty: { type: :integer },
-          table_price_in_cents: { type: :integer },
-          listing_price_in_cents: { type: :integer },
-          product_id: { type: :integer }
-        },
-        required: [ 'code', 'name', 'stock_qty', 'table_price_in_cents', 'listing_price_in_cents', 'product_id' ]
+          sku: { type: :object, properties: {
+            code: { type: :string },
+            names: { type: :string },
+            stock_qty: { type: :integer },
+            table_price_in_cents: { type: :integer },
+            listing_price_in_cents: { type: :integer },
+            product_id: { type: :integer }
+          }, required: [ 'code', 'name', 'stock_qty', 'table_price_in_cents', 'listing_price_in_cents', 'product_id' ] }
+        }
       }
 
       response '201', 'sku created' do
@@ -132,14 +133,15 @@ describe 'skus' do
       parameter name: :sku, in: :body, schema: {
         type: :object,
         properties: {
-          code: { type: :string },
-          name: { type: :string },
-          stock_qty: { type: :integer },
-          table_price_in_cents: { type: :integer },
-          listing_price_in_cents: { type: :integer },
-          product_id: { type: :integer }
-        },
-        required: [ 'code', 'name', 'stock_qty', 'table_price_in_cents', 'listing_price_in_cents', 'product_id' ]
+          sku: { type: :object, properties: {
+            code: { type: :string },
+            names: { type: :string },
+            stock_qty: { type: :integer },
+            table_price_in_cents: { type: :integer },
+            listing_price_in_cents: { type: :integer },
+            product_id: { type: :integer }
+          }, required: [ 'code', 'name', 'stock_qty', 'table_price_in_cents', 'listing_price_in_cents', 'product_id' ] }
+        }
       }
 
       response '200', 'Updates a sku' do
