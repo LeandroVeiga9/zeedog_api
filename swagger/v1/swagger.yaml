@@ -116,8 +116,6 @@ paths:
       summary: Retrieves one product
       tags:
       - Products
-      security:
-      - bearer_auth: []
       parameters:
       - name: id
         in: path
@@ -154,6 +152,318 @@ paths:
                       type: object
         '404':
           description: product not found
+    put:
+      summary: Updates a product
+      tags:
+      - Products
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Updates a product
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  external_name:
+                    type: string
+                  description:
+                    type: string
+                  manufacturer:
+                    type: string
+                  active:
+                    type: boolean
+                  created_at:
+                    type: string
+                    format: datetime
+                  updated_at:
+                    type: string
+                    format: datetime
+                  skus:
+                    type: array
+                    items:
+                      type: object
+        '404':
+          description: Product not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                external_name:
+                  type: string
+                description:
+                  type: string
+                manufacturer:
+                  type: string
+                active:
+                  type: boolean
+              required:
+              - external_name
+              - description
+              - manufacturer
+              - active
+    delete:
+      summary: Delete a product
+      tags:
+      - Products
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: Delete a product
+        '404':
+          description: product not found
+  "/skus":
+    post:
+      summary: Creates a sku
+      tags:
+      - SKUs
+      parameters: []
+      responses:
+        '201':
+          description: sku created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  external_name:
+                    type: string
+                  description:
+                    type: string
+                  manufacturer:
+                    type: string
+                  active:
+                    type: boolean
+                  created_at:
+                    type: string
+                    format: datetime
+                  updated_at:
+                    type: string
+                    format: datetime
+                  skus:
+                    type: array
+                    items:
+                      type: object
+        '422':
+          description: invalid request
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                name:
+                  type: string
+                stock_qty:
+                  type: integer
+                table_price_in_cents:
+                  type: integer
+                listing_price_in_cents:
+                  type: integer
+                product_id:
+                  type: integer
+              required:
+              - code
+              - name
+              - stock_qty
+              - table_price_in_cents
+              - listing_price_in_cents
+              - product_id
+    get:
+      summary: Retrieves all skus paginated
+      tags:
+      - SKUs
+      responses:
+        '200':
+          description: skus found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  skus:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        code:
+                          type: string
+                        name:
+                          type: string
+                        stock_qty:
+                          type: string
+                        table_price_in_cents:
+                          type: integer
+                        listing_price_in_cents:
+                          type: integer
+                        product_id:
+                          type: integer
+                        created_at:
+                          type: string
+                          format: datetime
+                        updated_at:
+                          type: string
+                          format: datetime
+                  pagination:
+                    type: object
+                    properties:
+                      total_pages:
+                        type: integer
+                        nullable: true
+                      current_page:
+                        type: integer
+                        nullable: true
+                      next_page:
+                        type: integer
+                        nullable: true
+                      prev_page:
+                        type: integer
+                        nullable: true
+  "/skus/{id}":
+    get:
+      summary: Retrieves one sku
+      tags:
+      - SKUs
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Retrieves a sku
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  code:
+                    type: string
+                  name:
+                    type: string
+                  stock_qty:
+                    type: integer
+                  table_price_in_cents:
+                    type: integer
+                  listing_price_in_cents:
+                    type: integer
+                  product_id:
+                    type: integer
+                  created_at:
+                    type: string
+                    format: datetime
+                  updated_at:
+                    type: string
+                    format: datetime
+        '404':
+          description: sku not found
+    put:
+      summary: Updates a sku
+      tags:
+      - SKUs
+      security:
+      - bearer_auth: []
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: Updates a sku
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  code:
+                    type: string
+                  name:
+                    type: string
+                  stock_qty:
+                    type: integer
+                  table_price_in_cents:
+                    type: integer
+                  listing_price_in_cents:
+                    type: integer
+                  product_id:
+                    type: integer
+                  created_at:
+                    type: string
+                    format: datetime
+                  updated_at:
+                    type: string
+                    format: datetime
+        '404':
+          description: Product not found
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: string
+                name:
+                  type: string
+                stock_qty:
+                  type: integer
+                table_price_in_cents:
+                  type: integer
+                listing_price_in_cents:
+                  type: integer
+                product_id:
+                  type: integer
+              required:
+              - code
+              - name
+              - stock_qty
+              - table_price_in_cents
+              - listing_price_in_cents
+              - product_id
+    delete:
+      summary: Delete a sku
+      tags:
+      - SKUs
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: integer
+      responses:
+        '204':
+          description: Delete a sku
+        '404':
+          description: sku not found
 servers:
 - url: https://{defaultHost}
   variables:
