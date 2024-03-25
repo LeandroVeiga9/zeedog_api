@@ -1,4 +1,4 @@
-class CreateSkus < ActiveRecord::Migration[7.1]
+class CreateSkus < ActiveRecord::Migration[7.0]
   def change
     create_table :skus do |t|
       t.string :code, null: false, limit: 13
