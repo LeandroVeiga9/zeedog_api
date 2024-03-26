@@ -9,6 +9,17 @@ class ApplicationController < ActionController::API
   before_action :configure_permitted_parameters, if: :devise_controller?
   before_action :authenticate_user
 
+  before_action do |controller|
+    unless (controller.class == Devise::RegistrationsController || controller.class == SessionsController)
+      controller.class.cancan_resource_class.new(controller).load_and_authorize_resource
+      authenticate_user!
+    end
+  end
+
+  rescue_from CanCan::AccessDenied do |exception|
+    render json: "You don't have access to this route", status: 401
+  end
+
   private 
 
   def configure_permitted_parameters

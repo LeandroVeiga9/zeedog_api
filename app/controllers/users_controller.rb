@@ -15,7 +15,6 @@ class UsersController < ApplicationController
   # POST /users
   # POST /users.json
   def create
-    puts 'aqui'
     @user = User.new(user_params)
 
     if @user.save
@@ -49,6 +48,6 @@ class UsersController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def user_params
-      params.require(:user).permit(:email, :password, :confirm_password)
+      params.require(:user).permit(:email, :password, :is_admin)
     end
 end
