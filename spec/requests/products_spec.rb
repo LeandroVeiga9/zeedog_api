@@ -18,6 +18,9 @@ describe 'products' do
           }, required: [ 'external_name', 'description', 'manufacturer', 'active' ] }
         }
       }
+      parameter name: :Authorization, in: :header, schema: {
+        type: :string
+      }, required: [ 'Authorization' ]
 
       response '201', 'product created' do
         schema type: :object,
@@ -31,6 +34,8 @@ describe 'products' do
             updated_at: { type: :string, format: :datetime },
             skus: { type: :array, items: { type: :object } },
           }
+        let(:user) { User.create(email: 'test@gmail.com', password: '123123', is_admin: true) }
+        let(:Authorization) { "Bearer #{user.generate_jwt}" }
 
         let(:product) { { external_name: "Test Name", description: "Product Description", manufacturer: "Test Manufacturer", active: true } }
 
@@ -38,8 +43,19 @@ describe 'products' do
       end
 
       response '422', 'invalid request' do
-        
+        let(:user) { User.create(email: 'test@gmail.com', password: '123123', is_admin: true) }
+        let(:Authorization) { "Bearer #{user.generate_jwt}" }
+
         let(:product) { { external_name: "foo" } }
+
+        run_test!
+      end
+
+      response '401', 'unauthorized' do
+        let(:user) { User.create(email: 'test@gmail.com', password: '123123', is_admin: false) }
+        let(:Authorization) { "Bearer #{user.generate_jwt}" }
+
+        let(:product) { { external_name: "Test Name", description: "Product Description", manufacturer: "Test Manufacturer", active: true } }
 
         run_test!
       end
@@ -134,6 +150,9 @@ describe 'products' do
           }, required: [ 'external_name', 'description', 'manufacturer', 'active' ] }
         }
       }
+      parameter name: :Authorization, in: :header, schema: {
+        type: :string
+      }, required: [ 'Authorization' ]
 
       response '200', 'Updates a product' do
         schema type: :object,
@@ -148,6 +167,8 @@ describe 'products' do
             skus: { type: :array, items: { type: :object } },
           }
         
+        let(:user) { User.create(email: 'test@gmail.com', password: '123123', is_admin: true) }
+        let(:Authorization) { "Bearer #{user.generate_jwt}" }
 
         let(:id) { Product.create(external_name: "Name Test", description: "Description Test", manufacturer: 'Manufacturer Test', active: true).id }
         let(:product) { { external_name: "Test Name", description: "Product Description", manufacturer: "Test Manufacturer", active: false } }
@@ -156,7 +177,20 @@ describe 'products' do
       end
 
       response '404', 'Product not found' do
+        let(:user) { User.create(email: 'test@gmail.com', password: '123123', is_admin: true) }
+        let(:Authorization) { "Bearer #{user.generate_jwt}" }
+
         let(:id) { 1 }
+        let(:product) { { external_name: "Test Name", description: "Product Description", manufacturer: "Test Manufacturer", active: false } }
+
+        run_test!
+      end
+
+      response '401', 'unauthorized' do
+        let(:user) { User.create(email: 'test@gmail.com', password: '123123', is_admin: false) }
+        let(:Authorization) { "Bearer #{user.generate_jwt}" }
+
+        let(:id) { Product.create(external_name: "Name Test", description: "Description Test", manufacturer: 'Manufacturer Test', active: true).id }
         let(:product) { { external_name: "Test Name", description: "Product Description", manufacturer: "Test Manufacturer", active: false } }
 
         run_test!
@@ -168,16 +202,32 @@ describe 'products' do
       produces 'application/json'
       consumes 'application/json'
       parameter name: :id, in: :path, type: :integer
+      parameter name: :Authorization, in: :header, schema: {
+        type: :string
+      }, required: [ 'Authorization' ]
 
       response '204', 'Delete a product' do
+        let(:user) { User.create(email: 'test@gmail.com', password: '123123', is_admin: true) }
+        let(:Authorization) { "Bearer #{user.generate_jwt}" }
 
         let(:id) { Product.create(external_name: "Name Test", description: "Description Test", manufacturer: 'Manufacturer Test', active: true).id }
         run_test!
       end
 
       response '404', 'product not found' do
+        let(:user) { User.create(email: 'test@gmail.com', password: '123123', is_admin: true) }
+        let(:Authorization) { "Bearer #{user.generate_jwt}" }
 
         let(:id) { 'invalid' }
+        run_test!
+      end
+
+      response '401', 'unauthorized' do
+        let(:user) { User.create(email: 'test@gmail.com', password: '123123', is_admin: false) }
+        let(:Authorization) { "Bearer #{user.generate_jwt}" }
+
+        let(:id) { Product.create(external_name: "Name Test", description: "Description Test", manufacturer: 'Manufacturer Test', active: true).id }
+
         run_test!
       end
     end

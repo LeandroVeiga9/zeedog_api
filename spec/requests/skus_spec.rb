@@ -20,6 +20,9 @@ describe 'skus' do
           }, required: [ 'code', 'name', 'stock_qty', 'table_price_in_cents', 'listing_price_in_cents', 'product_id' ] }
         }
       }
+      parameter name: :Authorization, in: :header, schema: {
+        type: :string
+      }, required: [ 'Authorization' ]
 
       response '201', 'sku created' do
         schema type: :object,
@@ -33,6 +36,8 @@ describe 'skus' do
             updated_at: { type: :string, format: :datetime },
             skus: { type: :array, items: { type: :object } },
           }
+        let(:user) { User.create(email: 'test@gmail.com', password: '123123', is_admin: true) }
+        let(:Authorization) { "Bearer #{user.generate_jwt}" }
 
         let(:product_id) { Product.create(external_name: "Name Test", description: "Description Test", manufacturer: 'Manufacturer Test', active: true).id }
         let(:sku) { { code: "1234567890123", name: "Sku Test", stock_qty: 100, table_price_in_cents: 1000, listing_price_in_cents: 2000, product_id: product_id } }
@@ -41,8 +46,20 @@ describe 'skus' do
       end
 
       response '422', 'invalid request' do
-        
+        let(:user) { User.create(email: 'test@gmail.com', password: '123123', is_admin: true) }
+        let(:Authorization) { "Bearer #{user.generate_jwt}" }
+
         let(:sku) { { code: "foo" } }
+
+        run_test!
+      end
+
+      response '401', 'unauthorized' do
+        let(:user) { User.create(email: 'test@gmail.com', password: '123123', is_admin: false) }
+        let(:Authorization) { "Bearer #{user.generate_jwt}" }
+
+        let(:product_id) { Product.create(external_name: "Name Test", description: "Description Test", manufacturer: 'Manufacturer Test', active: true).id }
+        let(:sku) { { code: "1234567890123", name: "Sku Test", stock_qty: 100, table_price_in_cents: 1000, listing_price_in_cents: 2000, product_id: product_id } }
 
         run_test!
       end
@@ -143,6 +160,9 @@ describe 'skus' do
           }, required: [ 'code', 'name', 'stock_qty', 'table_price_in_cents', 'listing_price_in_cents', 'product_id' ] }
         }
       }
+      parameter name: :Authorization, in: :header, schema: {
+        type: :string
+      }, required: [ 'Authorization' ]
 
       response '200', 'Updates a sku' do
         schema type: :object,
@@ -157,7 +177,9 @@ describe 'skus' do
             created_at: { type: :string, format: :datetime },
             updated_at: { type: :string, format: :datetime },
           }
-
+        let(:user) { User.create(email: 'test@gmail.com', password: '123123', is_admin: true) }
+        let(:Authorization) { "Bearer #{user.generate_jwt}" }
+        
         let(:product_id) { Product.create(external_name: "Name Test", description: "Description Test", manufacturer: 'Manufacturer Test', active: true).id }
         let(:id) { Sku.create(code: "1234567890123", name: "Sku Test", stock_qty: 100, table_price_in_cents: 1000, listing_price_in_cents: 2000, product_id: product_id).id }
         let(:sku) { { code: "1234567890124", name: "Sku Test 2", stock_qty: 10, table_price_in_cents: 2000, listing_price_in_cents: 3000, product_id: product_id } }
@@ -166,8 +188,22 @@ describe 'skus' do
       end
 
       response '404', 'Product not found' do
+        let(:user) { User.create(email: 'test@gmail.com', password: '123123', is_admin: true) }
+        let(:Authorization) { "Bearer #{user.generate_jwt}" }
+
         let(:id) { 1 }
         let(:sku) { { code: "1234567890123", name: "Sku Test", stock_qty: 100, table_price_in_cents: 1000, listing_price_in_cents: 2000, product_id: 1 } }
+
+        run_test!
+      end
+
+      response '401', 'unauthorized' do
+        let(:user) { User.create(email: 'test@gmail.com', password: '123123', is_admin: false) }
+        let(:Authorization) { "Bearer #{user.generate_jwt}" }
+
+        let(:product_id) { Product.create(external_name: "Name Test", description: "Description Test", manufacturer: 'Manufacturer Test', active: true).id }
+        let(:id) { Sku.create(code: "1234567890123", name: "Sku Test", stock_qty: 100, table_price_in_cents: 1000, listing_price_in_cents: 2000, product_id: product_id).id }
+        let(:sku) { { code: "1234567890124", name: "Sku Test 2", stock_qty: 10, table_price_in_cents: 2000, listing_price_in_cents: 3000, product_id: product_id } }
 
         run_test!
       end
@@ -178,8 +214,13 @@ describe 'skus' do
       produces 'application/json'
       consumes 'application/json'
       parameter name: :id, in: :path, type: :integer
+      parameter name: :Authorization, in: :header, schema: {
+        type: :string
+      }, required: [ 'Authorization' ]
 
       response '204', 'Delete a sku' do
+        let(:user) { User.create(email: 'test@gmail.com', password: '123123', is_admin: true) }
+        let(:Authorization) { "Bearer #{user.generate_jwt}" }
 
         let(:product_id) { Product.create(external_name: "Name Test", description: "Description Test", manufacturer: 'Manufacturer Test', active: true).id }
         let(:id) { Sku.create(code: "1234567890123", name: "Sku Test", stock_qty: 100, table_price_in_cents: 1000, listing_price_in_cents: 2000, product_id: product_id).id }
@@ -187,8 +228,20 @@ describe 'skus' do
       end
 
       response '404', 'sku not found' do
+        let(:user) { User.create(email: 'test@gmail.com', password: '123123', is_admin: true) }
+        let(:Authorization) { "Bearer #{user.generate_jwt}" }
 
         let(:id) { 'invalid' }
+        run_test!
+      end
+
+      response '401', 'unauthorized' do
+        let(:user) { User.create(email: 'test@gmail.com', password: '123123', is_admin: false) }
+        let(:Authorization) { "Bearer #{user.generate_jwt}" }
+
+        let(:product_id) { Product.create(external_name: "Name Test", description: "Description Test", manufacturer: 'Manufacturer Test', active: true).id }
+        let(:id) { Sku.create(code: "1234567890123", name: "Sku Test", stock_qty: 100, table_price_in_cents: 1000, listing_price_in_cents: 2000, product_id: product_id).id }
+
         run_test!
       end
     end

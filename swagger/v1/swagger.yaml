@@ -9,7 +9,13 @@ paths:
       summary: Creates a product
       tags:
       - Products
-      parameters: []
+      parameters:
+      - name: Authorization
+        in: header
+        schema:
+          type: string
+        required:
+        - Authorization
       responses:
         '201':
           description: product created
@@ -40,6 +46,8 @@ paths:
                       type: object
         '422':
           description: invalid request
+        '401':
+          description: unauthorized
       requestBody:
         content:
           application/json:
@@ -165,6 +173,12 @@ paths:
         required: true
         schema:
           type: integer
+      - name: Authorization
+        in: header
+        schema:
+          type: string
+        required:
+        - Authorization
       responses:
         '200':
           description: Updates a product
@@ -195,6 +209,8 @@ paths:
                       type: object
         '404':
           description: Product not found
+        '401':
+          description: unauthorized
       requestBody:
         content:
           application/json:
@@ -227,17 +243,31 @@ paths:
         required: true
         schema:
           type: integer
+      - name: Authorization
+        in: header
+        schema:
+          type: string
+        required:
+        - Authorization
       responses:
         '204':
           description: Delete a product
         '404':
           description: product not found
+        '401':
+          description: unauthorized
   "/skus":
     post:
       summary: Creates a sku
       tags:
       - SKUs
-      parameters: []
+      parameters:
+      - name: Authorization
+        in: header
+        schema:
+          type: string
+        required:
+        - Authorization
       responses:
         '201':
           description: sku created
@@ -268,6 +298,8 @@ paths:
                       type: object
         '422':
           description: invalid request
+        '401':
+          description: unauthorized
       requestBody:
         content:
           application/json:
@@ -403,6 +435,12 @@ paths:
         required: true
         schema:
           type: integer
+      - name: Authorization
+        in: header
+        schema:
+          type: string
+        required:
+        - Authorization
       responses:
         '200':
           description: Updates a sku
@@ -433,6 +471,8 @@ paths:
                     format: datetime
         '404':
           description: Product not found
+        '401':
+          description: unauthorized
       requestBody:
         content:
           application/json:
@@ -471,14 +511,22 @@ paths:
         required: true
         schema:
           type: integer
+      - name: Authorization
+        in: header
+        schema:
+          type: string
+        required:
+        - Authorization
       responses:
         '204':
           description: Delete a sku
         '404':
           description: sku not found
+        '401':
+          description: unauthorized
   "/users":
     post:
-      summary: Creates a user
+      summary: Register an user
       tags:
       - User Auth
       parameters: []
@@ -518,6 +566,49 @@ paths:
                       type: string
                     is_admin:
                       type: boolean
+                  required:
+                  - email
+                  - password
+  "/users/login":
+    post:
+      summary: User login
+      tags:
+      - User Auth
+      parameters: []
+      responses:
+        '200':
+          description: user logged
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+                      password:
+                        type: string
+                      is_admin:
+                        type: boolean
+                      token:
+                        type: string
+        '422':
+          description: email or password invalid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                    password:
+                      type: string
                   required:
                   - email
                   - password
