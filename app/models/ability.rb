@@ -9,7 +9,6 @@ class Ability
     if user.is_admin
       can :manage, :all
     else
-      puts user.email
       can :read, [Product, Sku]
     end
   end

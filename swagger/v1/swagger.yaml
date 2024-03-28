@@ -476,6 +476,51 @@ paths:
           description: Delete a sku
         '404':
           description: sku not found
+  "/users":
+    post:
+      summary: Creates a user
+      tags:
+      - User Auth
+      parameters: []
+      responses:
+        '200':
+          description: user created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    type: object
+                    properties:
+                      email:
+                        type: string
+                      password:
+                        type: string
+                      is_admin:
+                        type: boolean
+                      token:
+                        type: string
+        '422':
+          description: email already exists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user:
+                  type: object
+                  properties:
+                    email:
+                      type: string
+                    password:
+                      type: string
+                    is_admin:
+                      type: boolean
+                  required:
+                  - email
+                  - password
 servers:
 - url: https://{defaultHost}
   variables:
