@@ -22,7 +22,7 @@ class ApplicationController < ActionController::API
   private 
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up)
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:is_admin])
   end
 
   def authenticate_user!(options = {})
@@ -30,12 +30,7 @@ class ApplicationController < ActionController::API
   end
 
   def current_user
-    unless signed_in? 
-      @current_user = nil
-      return
-    end
-
-    @current_user ||= super || User.find(@current_user_id)
+    @current_user ||= super || User.where(id: @current_user_id).first
   end
 
   def signed_in?
