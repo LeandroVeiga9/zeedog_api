@@ -12,7 +12,6 @@ class ApplicationController < ActionController::API
   before_action do |controller|
     unless (controller.class == Devise::RegistrationsController || controller.class == SessionsController)
       controller.class.cancan_resource_class.new(controller).load_and_authorize_resource
-      authenticate_user!
     end
   end
 
@@ -31,6 +30,11 @@ class ApplicationController < ActionController::API
   end
 
   def current_user
+    unless signed_in? 
+      @current_user = nil
+      return
+    end
+
     @current_user ||= super || User.find(@current_user_id)
   end
 
