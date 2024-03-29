@@ -5,6 +5,7 @@ describe 'products' do
   path '/products' do
     post 'Creates a product' do
       tags 'Products'
+      description 'Available only for admin users'
       consumes 'application/json'
       produces 'application/json'
       parameter name: :product, in: :body, schema: {
@@ -136,6 +137,7 @@ describe 'products' do
 
     put 'Updates a product' do
       tags 'Products'
+      description 'Available only for admin users'
       produces 'application/json'
       consumes 'application/json'
       parameter name: :id, in: :path, type: :integer
@@ -199,6 +201,7 @@ describe 'products' do
 
     delete 'Delete a product' do
       tags 'Products'
+      description 'Available only for admin users'
       produces 'application/json'
       consumes 'application/json'
       parameter name: :id, in: :path, type: :integer

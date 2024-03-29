@@ -5,6 +5,7 @@ describe 'skus' do
   path '/skus' do
     post 'Creates a sku' do
       tags 'SKUs'
+      description 'Available only for admin users'
       consumes 'application/json'
       produces 'application/json'
       parameter name: :sku, in: :body, schema: {
@@ -110,7 +111,6 @@ describe 'skus' do
 
     get 'Retrieves one sku' do
       tags 'SKUs'
-      security [ bearer_auth: [] ]
       produces 'application/json'
       consumes 'application/json'
       parameter name: :id, in: :path, type: :integer
@@ -143,7 +143,7 @@ describe 'skus' do
 
     put 'Updates a sku' do
       tags 'SKUs'
-      security [ bearer_auth: [] ]
+      description 'Available only for admin users'
       produces 'application/json'
       consumes 'application/json'
       parameter name: :id, in: :path, type: :integer
@@ -211,6 +211,7 @@ describe 'skus' do
 
     delete 'Delete a sku' do
       tags 'SKUs'
+      description 'Available only for admin users'
       produces 'application/json'
       consumes 'application/json'
       parameter name: :id, in: :path, type: :integer

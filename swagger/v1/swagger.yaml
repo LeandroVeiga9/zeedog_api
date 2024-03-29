@@ -9,6 +9,7 @@ paths:
       summary: Creates a product
       tags:
       - Products
+      description: Available only for admin users
       parameters:
       - name: Authorization
         in: header
@@ -167,6 +168,7 @@ paths:
       summary: Updates a product
       tags:
       - Products
+      description: Available only for admin users
       parameters:
       - name: id
         in: path
@@ -237,6 +239,7 @@ paths:
       summary: Delete a product
       tags:
       - Products
+      description: Available only for admin users
       parameters:
       - name: id
         in: path
@@ -261,6 +264,7 @@ paths:
       summary: Creates a sku
       tags:
       - SKUs
+      description: Available only for admin users
       parameters:
       - name: Authorization
         in: header
@@ -385,8 +389,6 @@ paths:
       summary: Retrieves one sku
       tags:
       - SKUs
-      security:
-      - bearer_auth: []
       parameters:
       - name: id
         in: path
@@ -427,8 +429,7 @@ paths:
       summary: Updates a sku
       tags:
       - SKUs
-      security:
-      - bearer_auth: []
+      description: Available only for admin users
       parameters:
       - name: id
         in: path
@@ -505,6 +506,7 @@ paths:
       summary: Delete a sku
       tags:
       - SKUs
+      description: Available only for admin users
       parameters:
       - name: id
         in: path
