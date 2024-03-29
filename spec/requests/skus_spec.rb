@@ -17,8 +17,9 @@ describe 'skus' do
             stock_qty: { type: :integer },
             table_price_in_cents: { type: :integer },
             listing_price_in_cents: { type: :integer },
-            product_id: { type: :integer }
-          }, required: [ 'code', 'name', 'stock_qty', 'table_price_in_cents', 'listing_price_in_cents', 'product_id' ] }
+            product_id: { type: :integer },
+            image: { format: :file },
+          }, required: [ 'code', 'name', 'stock_qty', 'table_price_in_cents', 'listing_price_in_cents', 'product_id', 'image' ] }
         }
       }
       parameter name: :Authorization, in: :header, schema: {
@@ -29,14 +30,17 @@ describe 'skus' do
         schema type: :object,
           properties: {
             id: { type: :integer },
-            external_name: { type: :string },
-            description: { type: :string },
-            manufacturer: { type: :string },
-            active: { type: :boolean },
+            code: { type: :string },
+            name: { type: :string },
+            stock_qty: { type: :integer },
+            table_price_in_cents: { type: :integer },
+            listing_price_in_cents: { type: :integer },
+            product_id: { type: :integer },
+            image_url: { type: :string, nullable: true },
             created_at: { type: :string, format: :datetime },
             updated_at: { type: :string, format: :datetime },
-            skus: { type: :array, items: { type: :object } },
           }
+
         let(:user) { User.create(email: 'test@gmail.com', password: '123123', is_admin: true) }
         let(:Authorization) { "Bearer #{user.generate_jwt}" }
 
@@ -85,6 +89,7 @@ describe 'skus' do
                   table_price_in_cents: { type: :integer },
                   listing_price_in_cents: { type: :integer },
                   product_id: { type: :integer },
+                  image_url: { type: :string, nullable: true },
                   created_at: { type: :string, format: :datetime },
                   updated_at: { type: :string, format: :datetime },
                 },
@@ -125,6 +130,7 @@ describe 'skus' do
             table_price_in_cents: { type: :integer },
             listing_price_in_cents: { type: :integer },
             product_id: { type: :integer },
+            image_url: { type: :string, nullable: true },
             created_at: { type: :string, format: :datetime },
             updated_at: { type: :string, format: :datetime },
           }
@@ -156,8 +162,9 @@ describe 'skus' do
             stock_qty: { type: :integer },
             table_price_in_cents: { type: :integer },
             listing_price_in_cents: { type: :integer },
-            product_id: { type: :integer }
-          }, required: [ 'code', 'name', 'stock_qty', 'table_price_in_cents', 'listing_price_in_cents', 'product_id' ] }
+            product_id: { type: :integer },
+            image: { format: :file },
+          }, required: [ 'code', 'name', 'stock_qty', 'table_price_in_cents', 'listing_price_in_cents', 'product_id', 'image' ] }
         }
       }
       parameter name: :Authorization, in: :header, schema: {
@@ -174,6 +181,7 @@ describe 'skus' do
             table_price_in_cents: { type: :integer },
             listing_price_in_cents: { type: :integer },
             product_id: { type: :integer },
+            image_url: { type: :string, nullable: true },
             created_at: { type: :string, format: :datetime },
             updated_at: { type: :string, format: :datetime },
           }

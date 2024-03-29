@@ -282,24 +282,26 @@ paths:
                 properties:
                   id:
                     type: integer
-                  external_name:
+                  code:
                     type: string
-                  description:
+                  name:
                     type: string
-                  manufacturer:
+                  stock_qty:
+                    type: integer
+                  table_price_in_cents:
+                    type: integer
+                  listing_price_in_cents:
+                    type: integer
+                  product_id:
+                    type: integer
+                  image_url:
                     type: string
-                  active:
-                    type: boolean
                   created_at:
                     type: string
                     format: datetime
                   updated_at:
                     type: string
                     format: datetime
-                  skus:
-                    type: array
-                    items:
-                      type: object
         '422':
           description: invalid request
         '401':
@@ -325,6 +327,8 @@ paths:
                       type: integer
                     product_id:
                       type: integer
+                    image:
+                      format: file
                   required:
                   - code
                   - name
@@ -332,6 +336,7 @@ paths:
                   - table_price_in_cents
                   - listing_price_in_cents
                   - product_id
+                  - image
     get:
       summary: Retrieves all skus paginated
       tags:
@@ -363,6 +368,8 @@ paths:
                           type: integer
                         product_id:
                           type: integer
+                        image_url:
+                          type: string
                         created_at:
                           type: string
                           format: datetime
@@ -417,6 +424,8 @@ paths:
                     type: integer
                   product_id:
                     type: integer
+                  image_url:
+                    type: string
                   created_at:
                     type: string
                     format: datetime
@@ -464,6 +473,8 @@ paths:
                     type: integer
                   product_id:
                     type: integer
+                  image_url:
+                    type: string
                   created_at:
                     type: string
                     format: datetime
@@ -495,6 +506,8 @@ paths:
                       type: integer
                     product_id:
                       type: integer
+                    image:
+                      format: file
                   required:
                   - code
                   - name
@@ -502,6 +515,7 @@ paths:
                   - table_price_in_cents
                   - listing_price_in_cents
                   - product_id
+                  - image
     delete:
       summary: Delete a sku
       tags:

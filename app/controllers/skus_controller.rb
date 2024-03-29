@@ -53,6 +53,6 @@ class SkusController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def sku_params
-      params.require(:sku).permit(:code, :name, :stock_qty, :table_price_in_cents, :listing_price_in_cents, :product_id)
+      params.require(:sku).permit(:code, :name, :stock_qty, :table_price_in_cents, :listing_price_in_cents, :product_id, :image)
     end
 end
