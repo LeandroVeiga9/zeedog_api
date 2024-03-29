@@ -30,7 +30,7 @@ class ApplicationController < ActionController::API
   end
 
   def current_user
-    @current_user ||= super || User.where(id: @current_user_id).first
+    @current_user ||= User.where(id: @current_user_id).first || super
   end
 
   def signed_in?

@@ -1,4 +1,5 @@
 class SkusController < ApplicationController
+  before_action :authenticate_user!, except: %i[ index show ]
   before_action :set_sku, only: %i[ show update destroy ]
 
   # GET /skus
